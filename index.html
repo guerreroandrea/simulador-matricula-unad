@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Matrícula UNAD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { margin: 0; padding: 0; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        const SimuladorMatricula = () => {
+          const [tipoPrograma, setTipoPrograma] = useState('pregrado');
+          const [creditos, setCreditos] = useState(15);
+          const [descuentos, setDescuentos] = useState({
+            electoral: false,
+            convenio: 0
+          });
+          
+          const programas = {
+            pregrado: {
+              nombre: 'Pregrados',
+              creditoValor: 196000,
+              inscripcion: 245000,
+              seguro: 10000,
+              creditosDefault: 15,
+              icon: '📘'
+            },
+            tecnologia: {
+              nombre: 'Tecnologías',
+              creditoValor: 175000,
+              inscripcion: 245000,
+              seguro: 10000,
+              creditosDefault: 15,
+              icon: '💻'
+            },
+            especializacion: {
+              nombre: 'Especializaciones',
+              creditoValor: 598000,
+              inscripcion: 390000,
+              seguro: 10000,
+              creditosDefault: 12,
+              icon: '🎓'
+            },
+            maestria: {
+              nombre: 'Maestrías',
+              creditoValor: 925000,
+              inscripcion: 390000,
+              seguro: 10000,
+              creditosDefault: 12,
+              icon: '📚'
+            },
+            doctorado: {
+              nombre: 'Doctorado',
+              creditoValor: 1032000,
+              inscripcion: 390000,
+              seguro: 10000,
+              creditosDefault: 12,
+              icon: '🎯'
+            }
+          };
+
+          const requisitos = {
+            pregrado: [
+              'Copia del Diploma',
+              'Copia del Acta de grado autenticada',
+              'Resultado de Pruebas ICFES',
+              'Documento de identidad ampliado al 150%',
+              '2 fotos 3x4 fondo blanco',
+              'Soportes de descuento (si aplica)'
+            ],
+            posgrado: [
+              'Fotocopia del Diploma y Acta de Grado de Pregrado (autenticada)',
+              'Hoja de vida',
+              'Fotocopia del Documento de Identidad ampliado al 150%',
+              'Dos (2) fotos 3×4 fondo blanco',
+              'Soportes de descuento (si aplica)'
+            ]
+          };
+
+          useEffect(() => {
+            if (tipoPrograma && programas[tipoPrograma]) {
+              setCreditos(programas[tipoPrograma].creditosDefault);
+            }
+          }, [tipoPrograma]);
+
+          const calcularMatricula = () => {
+            if (!tipoPrograma || !programas[tipoPrograma]) {
+              return {
+                subtotalCreditos: 0,
+                inscripcion: 0,
+                seguro: 0,
+                subtotal: 0,
+                descuentoAplicado: 0,
+                porcentajeDescuento: 0,
+                descuentosAplicados: [],
+                total: 0
+              };
+            }
+
+            const programa = programas[tipoPrograma];
+            const subtotalCreditos = creditos * programa.creditoValor;
+            const subtotal = subtotalCreditos + programa.inscripcion + programa.seguro;
+            
+            let descuentoTotal = 0;
+            let descuentosAplicados = [];
+            
+            // Certificado electoral (10%)
+            if (descuentos.electoral) {
+              descuentoTotal += 10;
+              descuentosAplicados.push('Electoral 10%');
+            }
+            
+            // Descuentos por convenio
+            if (descuentos.convenio > 0) {
+              descuentoTotal += descuentos.convenio;
+              if (descuentos.convenio === 30) {
+                descuentosAplicados.push('Egresado 30%');
+              } else if (descuentos.convenio === 25) {
+                descuentosAplicados.push('Militares 25%');
+              } else if (descuentos.convenio === 40) {
+                descuentosAplicados.push('Militares 40%');
+              } else {
+                descuentosAplicados.push(`Convenio ${descuentos.convenio}%`);
+              }
+            }
+            
+            const descuentoAplicado = (subtotalCreditos * descuentoTotal) / 100;
+            const total = subtotal - descuentoAplicado;
+            
+            return {
+              subtotalCreditos,
+              inscripcion: programa.inscripcion,
+              seguro: programa.seguro,
+              subtotal,
+              descuentoAplicado,
+              porcentajeDescuento: descuentoTotal,
+              descuentosAplicados,
+              total
+            };
+          };
+
+          const resultado = calcularMatricula();
+          const esPosgrado = tipoPrograma === 'especializacion' || tipoPrograma === 'maestria' || tipoPrograma === 'doctorado';
+
+          return (
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+              <div className="max-w-4xl mx-auto">
+                <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+                  <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white">
+                    <div className="flex items-center gap-3">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+                        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+                      </svg>
+                      <div>
+                        <h1 className="text-3xl font-bold">Simulador de Matrícula UNAD</h1>
+                        <p className="text-blue-100">Calcula el valor de tu matrícula universitaria</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-6 space-y-6">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-3 text-center">
+                        📊 Tipo de Programa
+                      </label>
+                      <div className="flex flex-wrap justify-center gap-3 max-w-5xl mx-auto">
+                        {Object.entries(programas).map(([key, prog]) => (
+                          <button
+                            key={key}
+                            onClick={() => setTipoPrograma(key)}
+                            className={`p-6 rounded-xl border-2 transition-all text-center w-full sm:w-64 ${
+                              tipoPrograma === key
+                                ? 'border-blue-600 bg-blue-50 shadow-md'
+                                : 'border-gray-200 hover:border-blue-300'
+                            }`}
+                          >
+                            <div className="text-3xl mb-2">{prog.icon}</div>
+                            <div className="font-semibold text-gray-800 text-base mb-1">{prog.nombre}</div>
+                            <div className="text-sm text-gray-600">
+                              ${prog.creditoValor.toLocaleString()}/crédito
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">
+                        Número de Créditos
+                      </label>
+                      <input
+                        type="number"
+                        value={creditos}
+                        onChange={(e) => setCreditos(parseInt(e.target.value) || 0)}
+                        className="w-full p-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none"
+                        min="1"
+                        max="30"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-3">
+                        🏆 Descuentos Disponibles
+                      </label>
+                      
+                      <div className="space-y-4">
+                        {/* Certificado Electoral */}
+                        <div className="p-4 rounded-lg border-2 border-gray-200 bg-white">
+                          <h3 className="font-semibold text-gray-800 mb-3 flex items-center">
+                            <span className="text-xl mr-2">🗳️</span>
+                            Certificado electoral vigente (29 octubre 2023)
+                          </h3>
+                          <div className="space-y-2 ml-7">
+                            <label className="flex items-center cursor-pointer">
+                              <input
+                                type="radio"
+                                name="electoral"
+                                checked={!descuentos.electoral}
+                                onChange={() => setDescuentos({...descuentos, electoral: false})}
+                                className="w-4 h-4 text-blue-600"
+                              />
+                              <span className="ml-2 text-sm">No Aplica</span>
+                            </label>
+                            <label className="flex items-center cursor-pointer">
+                              <input
+                                type="radio"
+                                name="electoral"
+                                checked={descuentos.electoral}
+                                onChange={() => setDescuentos({...descuentos, electoral: true})}
+                                className="w-4 h-4 text-blue-600"
+                              />
+                              <span className="ml-2 text-sm">Aplica - 10% descuento</span>
+                            </label>
+                          </div>
+                        </div>
+
+                        {/* Descuentos por Convenios */}
+                        <div className="p-4 rounded-lg border-2 border-gray-200 bg-white">
+                          <h3 className="font-semibold text-gray-800 mb-3 flex items-center">
+                            <span className="text-xl mr-2">📋</span>
+                            Descuentos por convenios interinstitucionales
+                          </h3>
+                          <div className="space-y-2 ml-7">
+                            <label className="flex items-center cursor-pointer">
+                              <input
+                                type="radio"
+                                name="convenio"
+                                checked={descuentos.convenio === 0}
+                                onChange={() => setDescuentos({...descuentos, convenio: 0})}
+                                className="w-4 h-4 text-blue-600"
+                              />
+                              <span className="ml-2 text-sm">No Aplica</span>
+                            </label>
+                            <label className="flex items-center cursor-pointer">
+                              <input
+                                type="radio"
+                                name="convenio"
+                                checked={descuentos.convenio === 5}
+                                onChange={() => setDescuentos({...descuentos, convenio: 5})}
+                                className="w-4 h-4 text-blue-600"
+                              />
+                              <span className="ml-2 text-sm">5% Convenio</span>
+                            </label>
+                            <label className="flex items-center cursor-pointer">
+                              <input
+                                type="radio"
+                                name="convenio"
+                                checked={descuentos.convenio === 10}
+                                onChange={() => setDescuentos({...descuentos, convenio: 10})}
+                                className="w-4 h-4 text-blue-600"
+                              />
+                              <span className="ml-2 text-sm">10% Convenio</span>
+                            </label>
+                            <label className="flex items-center cursor-pointer">
+                              <input
+                                type="radio"
+                                name="convenio"
+                                checked={descuentos.convenio === 15}
+                                onChange={() => setDescuentos({...descuentos, convenio: 15})}
+                                className="w-4 h-4 text-blue-600"
+                              />
+                              <span className="ml-2 text-sm">15% Convenio</span>
+                            </label>
+                            {esPosgrado && (
+                              <label className="flex items-center cursor-pointer">
+                                <input
+                                  type="radio"
+                                  name="convenio"
+                                  checked={descuentos.convenio === 30}
+                                  onChange={() => setDescuentos({...descuentos, convenio: 30})}
+                                  className="w-4 h-4 text-blue-600"
+                                />
+                                <span className="ml-2 text-sm text-gray-700">30% Egresado</span>
+                              </label>
+                            )}
+                            <label className="flex items-center cursor-pointer">
+                              <input
+                                type="radio"
+                                name="convenio"
+                                checked={descuentos.convenio === (esPosgrado ? 25 : 40)}
+                                onChange={() => setDescuentos({...descuentos, convenio: esPosgrado ? 25 : 40})}
+                                className="w-4 h-4 text-blue-600"
+                              />
+                              <span className="ml-2 text-sm text-gray-700">
+                                {esPosgrado ? '25%' : '40%'} para Militares Activos/Uniformados
+                              </span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p className="text-sm text-blue-800">
+                          ℹ️ Los descuentos del certificado electoral y convenios son acumulables. Por ejemplo: Electoral 10% + Convenio 15% = 25% total.
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl p-6 text-white">
+                      <h2 className="text-xl font-bold mb-4">💰 Resumen de Matrícula</h2>
+                      {tipoPrograma ? (
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center pb-2 border-b border-blue-400">
+                            <span className="text-sm">Créditos académicos ({creditos} × ${programas[tipoPrograma].creditoValor.toLocaleString()})</span>
+                            <span className="font-bold">${resultado.subtotalCreditos.toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span>Inscripción</span>
+                            <span className="font-bold">${resultado.inscripcion.toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span>Seguro estudiantil</span>
+                            <span className="font-bold">${resultado.seguro.toLocaleString()}</span>
+                          </div>
+                          {resultado.descuentoAplicado > 0 && (
+                            <div className="flex flex-col gap-1 text-green-300">
+                              <div className="flex justify-between items-center">
+                                <span>Descuento aplicado ({resultado.porcentajeDescuento}%)</span>
+                                <span className="font-bold">-${resultado.descuentoAplicado.toLocaleString()}</span>
+                              </div>
+                              {resultado.descuentosAplicados.length > 0 && (
+                                <div className="text-xs text-green-200">
+                                  {resultado.descuentosAplicados.join(' + ')}
+                                </div>
+                              )}
+                            </div>
+                          )}
+                          <div className="flex justify-between items-center pt-3 border-t-2 border-blue-400 text-xl">
+                            <span className="font-bold">TOTAL</span>
+                            <span className="font-bold">${resultado.total.toLocaleString()}</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="text-center text-blue-100 py-8">
+                          Selecciona un tipo de programa para calcular tu matrícula
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="bg-gray-50 rounded-xl p-6">
+                      <h3 className="font-bold text-gray-800 mb-3">
+                        📋 Requisitos de Matrícula
+                      </h3>
+                      <ul className="space-y-2">
+                        {(esPosgrado ? requisitos.posgrado : requisitos.pregrado).map((req, idx) => (
+                          <li key={idx} className="flex items-start text-sm">
+                            <span className="text-blue-600 mr-2">✓</span>
+                            <span className="text-gray-700">{req}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<SimuladorMatricula />);
+    </script>
+</body>
+</html>
