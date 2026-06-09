@@ -82,6 +82,7 @@
     
     <script type="text/babel">
         const { useState, useEffect } = React;
+
         const SimuladorMatricula = () => {
           const [tipoPrograma, setTipoPrograma] = useState('pregrado');
           const [creditos, setCreditos] = useState(15);
@@ -92,6 +93,7 @@
           const [checklistDocs, setChecklistDocs] = useState({});
           const [copySuccess, setCopySuccess] = useState(false);
           const [activeFaq, setActiveFaq] = useState(null);
+
           const programas = {
             tecnologia: {
               nombre: 'Tecnologías',
@@ -123,7 +125,7 @@
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
               ),
-              desc: 'Carreras profesionales universitarias universitarias.'
+              desc: 'Carreras profesionales universitarias.'
             },
             especializacion: {
               nombre: 'Especializaciones',
@@ -176,6 +178,7 @@
               desc: 'Programas de doctorado en investigación.'
             }
           };
+
           const requisitos = {
             pregrado: [
               { id: 'dip', text: 'Copia del Diploma de Bachiller' },
@@ -194,6 +197,7 @@
               { id: 'desp', text: 'Soportes de descuento (si aplica certificado electoral o de egresado)' }
             ]
           };
+
           const faqs = [
             {
               q: '¿Cómo se aplican y acumulan los descuentos?',
@@ -212,6 +216,7 @@
               a: 'La UNAD cuenta con convenios de financiación directa, alianzas con el ICETEX, cooperativas como Cooptraiss, Fincomercio, Banco Pichincha, y pagos con tarjeta de crédito de cualquier entidad bancaria.'
             }
           ];
+
           // Reset creditos & checklist when program changes
           useEffect(() => {
             if (tipoPrograma && programas[tipoPrograma]) {
@@ -219,18 +224,18 @@
               setChecklistDocs({});
             }
           }, [tipoPrograma]);
+
           // Adapt military discount depending on level
           useEffect(() => {
             const esPos = programas[tipoPrograma].nivel === 'posgrado';
-            // If the selected discount is 40% (pregrado military) but now we are on posgrado, transition to 25% (posgrado military)
             if (esPos && descuentos.convenio === 40) {
               setDescuentos(d => ({ ...d, convenio: 25 }));
             }
-            // If selected is 30% (egresado) or 25% (posgrado military) but we change to pregrado, reset or transition to 40%
             if (!esPos && (descuentos.convenio === 30 || descuentos.convenio === 25)) {
               setDescuentos(d => ({ ...d, convenio: 0 }));
             }
           }, [tipoPrograma, descuentos.convenio]);
+
           const calcularMatricula = () => {
             if (!tipoPrograma || !programas[tipoPrograma]) {
               return {
@@ -244,6 +249,7 @@
                 total: 0
               };
             }
+
             const programa = programas[tipoPrograma];
             const subtotalCreditos = creditos * programa.creditoValor;
             const subtotal = subtotalCreditos + programa.inscripcion + programa.seguro;
@@ -285,6 +291,7 @@
               total
             };
           };
+
           const resultado = calcularMatricula();
           const programaActual = programas[tipoPrograma];
           const esPosgrado = programaActual.nivel === 'posgrado';
@@ -292,12 +299,14 @@
           
           const docsCheckedCount = Object.values(checklistDocs).filter(Boolean).length;
           const pctDocs = Math.round((docsCheckedCount / listaRequisitos.length) * 100) || 0;
+
           const handleChecklistChange = (id) => {
             setChecklistDocs(prev => ({
               ...prev,
               [id]: !prev[id]
             }));
           };
+
           const handleCopySummary = () => {
             const resumenText = `--- SIMULACIÓN MATRÍCULA UNAD ---
 Programa: ${programaActual.nombre}
@@ -310,27 +319,33 @@ Descuentos detallados: ${resultado.descuentosAplicados.join(' + ') || 'Ninguno'}
 VALOR TOTAL A PAGAR: $${resultado.total.toLocaleString()} COP
 Simulado el ${new Date().toLocaleDateString()}
 ---------------------------------`;
+
             navigator.clipboard.writeText(resumenText).then(() => {
               setCopySuccess(true);
               setTimeout(() => setCopySuccess(false), 3000);
             });
           };
+
           const handlePrint = () => {
             window.print();
           };
+
           const handleReset = () => {
             setTipoPrograma('pregrado');
             setCreditos(15);
             setDescuentos({ electoral: false, convenio: 0 });
             setChecklistDocs({});
           };
+
           // Calculated proportions for visual chart
           const creditsPct = resultado.subtotalCreditos > 0 ? (resultado.subtotalCreditos / (resultado.subtotalCreditos + resultado.inscripcion + resultado.seguro)) * 100 : 0;
           const feesPct = 100 - creditsPct;
+
           return (
             <div className="min-h-screen flex flex-col font-inter">
               {/* Top Decorative bar */}
               <div className="h-2 bg-gradient-to-r from-unad-blue via-unad-yellow to-yellow-500 w-full no-print"></div>
+
               {/* Navigation Header */}
               <header className="bg-unad-blue text-white shadow-lg py-5 px-4 sm:px-8 no-print transition-all duration-300">
                 <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
@@ -367,15 +382,17 @@ Simulado el ${new Date().toLocaleDateString()}
                   </div>
                 </div>
               </header>
+
               {/* Main Content Area */}
               <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-                {/* Print Title Header (Only visible when printing) */}
+                {/* Print Title Header */}
                 <div className="hidden print:block col-span-12 border-b-2 border-unad-blue pb-4 mb-6">
                   <h1 className="text-3xl font-bold text-unad-blue">UNIVERSIDAD NACIONAL ABIERTA Y A DISTANCIA (UNAD)</h1>
                   <p className="text-md text-slate-600">Simulación Proyectada de Matrícula Universitaria</p>
                   <p className="text-sm text-slate-500 mt-1">Fecha de liquidación: {new Date().toLocaleDateString()} a las {new Date().toLocaleTimeString()}</p>
                 </div>
-                {/* Left Column: Inputs & Customizer (8 Cols on large screen) */}
+
+                {/* Left Column: Inputs */}
                 <div className="lg:col-span-7 space-y-6 sm:space-y-8 no-print">
                   {/* Step 1: Program Selector */}
                   <section className="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 hover:border-slate-300 transition duration-200">
@@ -427,7 +444,8 @@ Simulado el ${new Date().toLocaleDateString()}
                       })}
                     </div>
                   </section>
-                  {/* Step 2: Academic Credits Slider */}
+
+                  {/* Step 2: Academic Credits Selector */}
                   <section className="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 hover:border-slate-300 transition duration-200">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
                       <h2 className="text-lg sm:text-xl font-bold font-title text-unad-blue flex items-center gap-2">
@@ -441,33 +459,48 @@ Simulado el ${new Date().toLocaleDateString()}
                           value={creditos}
                           onChange={(e) => {
                             const val = parseInt(e.target.value) || 0;
-                            if (val >= 0 && val <= 35) setCreditos(val);
+                            if (val >= 0 && val <= 40) setCreditos(val);
                           }}
-                          className="w-16 p-1.5 font-bold text-center border-2 border-slate-200 rounded-lg focus:border-unad-blue focus:outline-none focus:ring-1 focus:ring-unad-blue/20 text-sm text-unad-blue"
-                          min="0"
-                          max="35"
+                          className="w-20 p-2 font-bold text-center border-2 border-slate-200 rounded-lg focus:border-unad-blue focus:outline-none focus:ring-1 focus:ring-unad-blue/20 text-sm text-unad-blue"
+                          min="1"
+                          max="40"
                         />
                       </div>
                     </div>
+
                     <p className="text-xs text-slate-500 leading-relaxed mb-4">
-                      Cada asignatura equivale a un número de créditos (usualmente entre 2 y 4 créditos). La UNAD permite inscribir desde {programaActual.minCreditos} hasta {programaActual.maxCreditos} créditos por período académico regular.
+                      La UNAD permite inscribir desde {programaActual.minCreditos} hasta {programaActual.maxCreditos} créditos por período académico regular. Puedes escribir cualquier número de créditos directamente en la casilla de arriba para simular casos especiales.
                     </p>
+
                     <div className="space-y-3">
                       <input
                         type="range"
-                        min={programaActual.minCreditos}
-                        max={programaActual.maxCreditos}
-                        value={creditos}
+                        min="1"
+                        max="35"
+                        value={creditos > 35 ? 35 : (creditos < 1 ? 1 : creditos)}
                         onChange={(e) => setCreditos(parseInt(e.target.value) || 1)}
                         className="w-full h-2.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-unad-blue"
                       />
                       <div className="flex justify-between text-xs text-slate-400 font-medium px-1">
-                        <span>Min: {programaActual.minCreditos} cr.</span>
-                        <span className="text-unad-blue font-semibold bg-unad-lightBlue px-2.5 py-0.5 rounded-full">Recomendado: {programaActual.creditosDefault} cr.</span>
-                        <span>Máx: {programaActual.maxCreditos} cr.</span>
+                        <span>1 cr.</span>
+                        <span className="text-unad-blue font-semibold bg-unad-lightBlue px-2.5 py-0.5 rounded-full">
+                          Rango regular: {programaActual.minCreditos} a {programaActual.maxCreditos} cr.
+                        </span>
+                        <span>35 cr.</span>
                       </div>
                     </div>
+
+                    {/* Alert for values outside typical limits */}
+                    {(creditos < programaActual.minCreditos || creditos > programaActual.maxCreditos) && creditos > 0 && (
+                      <div className="mt-3 p-2.5 bg-amber-50 border border-amber-200 rounded-xl flex items-center gap-2 text-xs text-amber-800">
+                        <span>⚠️</span>
+                        <span>
+                          La cantidad de créditos ingresada ({creditos}) está fuera del rango regular del programa ({programaActual.minCreditos} a {programaActual.maxCreditos} cr.).
+                        </span>
+                      </div>
+                    )}
                   </section>
+
                   {/* Step 3: Discounts Options */}
                   <section className="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 hover:border-slate-300 transition duration-200">
                     <h2 className="text-lg sm:text-xl font-bold font-title text-unad-blue mb-2 flex items-center gap-2">
@@ -477,8 +510,9 @@ Simulado el ${new Date().toLocaleDateString()}
                     <p className="text-xs text-slate-500 mb-5 leading-relaxed">
                       La UNAD incentiva la participación y el acceso a la educación. Los descuentos del certificado electoral y los convenios interinstitucionales se suman.
                     </p>
+
                     <div className="space-y-4">
-                      {/* Sub-section: Electoral Discount */}
+                      {/* Electoral Discount */}
                       <div className="p-4 rounded-2xl border border-slate-200/80 bg-slate-50/50">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex items-start gap-3">
@@ -506,7 +540,8 @@ Simulado el ${new Date().toLocaleDateString()}
                           </button>
                         </div>
                       </div>
-                      {/* Sub-section: Agreements */}
+
+                      {/* Agreements */}
                       <div className="p-4 rounded-2xl border border-slate-200/80 bg-slate-50/50">
                         <div className="flex items-center gap-2.5 mb-3.5">
                           <span className="text-2xl">📋</span>
@@ -514,6 +549,7 @@ Simulado el ${new Date().toLocaleDateString()}
                             Convenios Interinstitucionales
                           </h3>
                         </div>
+
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                           <button
                             onClick={() => setDescuentos(prev => ({ ...prev, convenio: 0 }))}
@@ -525,6 +561,7 @@ Simulado el ${new Date().toLocaleDateString()}
                           >
                             Sin Convenio
                           </button>
+
                           <button
                             onClick={() => setDescuentos(prev => ({ ...prev, convenio: 5 }))}
                             className={`p-2.5 rounded-xl border text-center transition duration-200 text-xs font-semibold ${
@@ -535,6 +572,7 @@ Simulado el ${new Date().toLocaleDateString()}
                           >
                             Alianza 5%
                           </button>
+
                           <button
                             onClick={() => setDescuentos(prev => ({ ...prev, convenio: 10 }))}
                             className={`p-2.5 rounded-xl border text-center transition duration-200 text-xs font-semibold ${
@@ -545,6 +583,7 @@ Simulado el ${new Date().toLocaleDateString()}
                           >
                             Alianza 10%
                           </button>
+
                           <button
                             onClick={() => setDescuentos(prev => ({ ...prev, convenio: 15 }))}
                             className={`p-2.5 rounded-xl border text-center transition duration-200 text-xs font-semibold ${
@@ -555,6 +594,7 @@ Simulado el ${new Date().toLocaleDateString()}
                           >
                             Alianza 15%
                           </button>
+
                           {/* Level-specific discounts */}
                           {esPosgrado ? (
                             <React.Fragment>
@@ -598,6 +638,7 @@ Simulado el ${new Date().toLocaleDateString()}
                         </div>
                       </div>
                     </div>
+
                     {/* Dynamic Savings Info */}
                     <div className="mt-4 p-3.5 bg-sky-50 border border-sky-100 rounded-2xl flex items-start gap-2.5">
                       <span className="text-sky-600 text-base mt-0.5">ℹ️</span>
@@ -612,7 +653,8 @@ Simulado el ${new Date().toLocaleDateString()}
                     </div>
                   </section>
                 </div>
-                {/* Right Column: Liquidación Receipt & Extras (5 Cols on large screen) */}
+
+                {/* Right Column: Liquidación Receipt & Extras */}
                 <div className="lg:col-span-5 space-y-6">
                   {/* The Liquidación Receipt */}
                   <section className="bg-unad-navy text-white rounded-3xl shadow-xl overflow-hidden print-card relative">
@@ -622,6 +664,7 @@ Simulado el ${new Date().toLocaleDateString()}
                         <path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                       </svg>
                     </div>
+
                     <div className="bg-gradient-to-r from-unad-blue to-blue-950 p-6 border-b border-white/10 flex items-center justify-between">
                       <div>
                         <h2 className="text-xl font-bold font-title text-white">Liquidación</h2>
@@ -631,6 +674,7 @@ Simulado el ${new Date().toLocaleDateString()}
                         {programaActual.nombre.split(' ')[0]}
                       </span>
                     </div>
+
                     <div className="p-6 space-y-5">
                       <div className="space-y-3">
                         <div className="flex justify-between items-center text-sm">
@@ -646,8 +690,10 @@ Simulado el ${new Date().toLocaleDateString()}
                           <span className="font-semibold text-white">${resultado.seguro.toLocaleString()}</span>
                         </div>
                       </div>
+
                       {/* Divider */}
                       <div className="border-t border-white/10 my-2"></div>
+
                       {/* Discounts segment */}
                       {resultado.descuentoAplicado > 0 ? (
                         <div className="bg-emerald-950/30 border border-emerald-500/20 rounded-2xl p-3.5 space-y-1">
@@ -664,6 +710,7 @@ Simulado el ${new Date().toLocaleDateString()}
                           No has seleccionado ningún descuento.
                         </div>
                       )}
+
                       {/* Visual Cost Proportions Bar Chart */}
                       <div className="space-y-1.5 no-print">
                         <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400">Distribución de Costos</span>
@@ -684,6 +731,7 @@ Simulado el ${new Date().toLocaleDateString()}
                           <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-unad-yellow"></span> Trámites</span>
                         </div>
                       </div>
+
                       {/* Total section */}
                       <div className="border-t-2 border-dashed border-white/20 pt-4 flex flex-col items-center">
                         <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Total Proyectado a Pagar</span>
@@ -692,6 +740,7 @@ Simulado el ${new Date().toLocaleDateString()}
                         </span>
                         <span className="text-[10px] text-slate-400 mt-1 font-light italic">Pesos Colombianos (COP)</span>
                       </div>
+
                       {/* Ahorro total banner */}
                       {resultado.descuentoAplicado > 0 && (
                         <div className="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 rounded-2xl p-3.5 text-center text-sm font-medium text-emerald-300 flex items-center justify-center gap-2">
@@ -699,7 +748,8 @@ Simulado el ${new Date().toLocaleDateString()}
                           <span>¡Te estás ahorrando <strong>${resultado.descuentoAplicado.toLocaleString()} COP</strong>!</span>
                         </div>
                       )}
-                      {/* Buttons: PDF and Copy (Hidden when printing) */}
+
+                      {/* Buttons: PDF and Copy */}
                       <div className="grid grid-cols-2 gap-3 no-print pt-2">
                         <button
                           onClick={handleCopySummary}
@@ -725,6 +775,7 @@ Simulado el ${new Date().toLocaleDateString()}
                             </React.Fragment>
                           )}
                         </button>
+
                         <button
                           onClick={handlePrint}
                           className="py-3 px-4 text-xs font-semibold rounded-2xl bg-unad-yellow hover:bg-yellow-400 text-unad-blue transition duration-200 flex items-center justify-center gap-2 shadow-lg shadow-unad-yellow/10"
@@ -737,6 +788,7 @@ Simulado el ${new Date().toLocaleDateString()}
                       </div>
                     </div>
                   </section>
+
                   {/* Requirements Tracker */}
                   <section className="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 hover:border-slate-300 transition duration-200">
                     <div className="flex items-center justify-between gap-3 mb-3">
@@ -748,9 +800,11 @@ Simulado el ${new Date().toLocaleDateString()}
                         {docsCheckedCount}/{listaRequisitos.length} listos
                       </span>
                     </div>
+
                     <p className="text-xs text-slate-500 mb-4">
                       Requisitos requeridos para formalizar tu matrícula como estudiante de <strong>{esPosgrado ? 'Posgrado' : 'Pregrado'}</strong>. Marca los que ya poseas:
                     </p>
+
                     {/* Progress bar */}
                     <div className="w-full bg-slate-100 rounded-full h-1.5 mb-4 overflow-hidden">
                       <div
@@ -758,6 +812,7 @@ Simulado el ${new Date().toLocaleDateString()}
                         className="bg-emerald-500 h-1.5 rounded-full transition-all duration-300"
                       ></div>
                     </div>
+
                     <ul className="space-y-2.5">
                       {listaRequisitos.map((req) => {
                         const isChecked = !!checklistDocs[req.id];
@@ -789,7 +844,8 @@ Simulado el ${new Date().toLocaleDateString()}
                     </ul>
                   </section>
                 </div>
-                {/* FAQ and Helpful Accordion (Full width bottom - no print) */}
+
+                {/* FAQ and Helpful Accordion */}
                 <div className="col-span-12 space-y-4 no-print mt-4 sm:mt-6">
                   <h3 className="text-xl font-bold font-title text-unad-blue">Preguntas Frecuentes</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -820,6 +876,7 @@ Simulado el ${new Date().toLocaleDateString()}
                   </div>
                 </div>
               </main>
+
               {/* Bottom Footer */}
               <footer className="bg-slate-100 border-t border-slate-200 py-6 px-4 mt-12 text-center text-xs text-slate-500 no-print">
                 <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -830,6 +887,7 @@ Simulado el ${new Date().toLocaleDateString()}
             </div>
           );
         };
+
         const root = ReactDOM.createRoot(document.getElementById('root'));
         root.render(<SimuladorMatricula />);
     </script>
