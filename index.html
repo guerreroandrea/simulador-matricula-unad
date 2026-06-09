@@ -36,6 +36,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc;
+            scroll-behavior: smooth;
         }
         .font-title {
             font-family: 'Outfit', sans-serif;
@@ -72,7 +73,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-800 antialiased selection:bg-unad-yellow selection:text-unad-blue">
+<body class="min-h-screen bg-slate-50 text-slate-800 antialiased selection:bg-unad-yellow selection:text-unad-blue pb-20 lg:pb-0">
     <div id="root"></div>
     
     <!-- React UMD libraries -->
@@ -342,40 +343,40 @@ Simulado el ${new Date().toLocaleDateString()}
           const feesPct = 100 - creditsPct;
 
           return (
-            <div className="min-h-screen flex flex-col font-inter">
+            <div className="min-h-screen flex flex-col font-inter bg-slate-50">
               {/* Top Decorative bar */}
               <div className="h-2 bg-gradient-to-r from-unad-blue via-unad-yellow to-yellow-500 w-full no-print"></div>
 
               {/* Navigation Header */}
-              <header className="bg-unad-blue text-white shadow-lg py-5 px-4 sm:px-8 no-print transition-all duration-300">
+              <header className="bg-unad-blue text-white shadow-lg py-4 px-4 sm:px-6 md:px-8 no-print transition-all duration-300">
                 <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="bg-white/10 p-3 rounded-2xl border border-white/20 backdrop-blur-md shadow-inner">
-                      <svg className="w-10 h-10 text-unad-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <div className="flex items-center gap-3.5">
+                    <div className="bg-white/10 p-2.5 rounded-2xl border border-white/20 backdrop-blur-md shadow-inner flex-shrink-0">
+                      <svg className="w-8 h-8 text-unad-yellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                       </svg>
                     </div>
                     <div>
-                      <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight font-title text-white flex items-center gap-2">
+                      <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight font-title text-white flex items-center gap-2">
                         UNAD <span className="text-unad-yellow font-medium text-lg sm:text-xl px-2 py-0.5 rounded-lg bg-white/10 border border-white/10">Simulador</span>
                       </h1>
-                      <p className="text-xs sm:text-sm text-slate-300 font-light mt-0.5">
+                      <p className="text-[11px] sm:text-xs md:text-sm text-slate-300 font-light mt-0.5">
                         Liquidación oficial proyectada de Matrícula Universitaria
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3 w-full md:w-auto justify-end">
                     <button
                       onClick={handleReset}
-                      className="px-4 py-2 text-xs font-semibold rounded-xl text-slate-200 bg-white/5 border border-white/10 hover:bg-white/10 transition duration-200"
+                      className="px-3.5 py-2 text-xs font-semibold rounded-xl text-slate-200 bg-white/5 border border-white/10 hover:bg-white/10 transition duration-200"
                     >
-                      Reiniciar valores
+                      Reiniciar
                     </button>
                     <a
                       href="https://www.unad.edu.co"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2 text-xs font-semibold rounded-xl text-unad-blue bg-unad-yellow hover:bg-yellow-400 shadow-md hover:shadow-unad-yellow/20 transition duration-200"
+                      className="px-3.5 py-2 text-xs font-semibold rounded-xl text-unad-blue bg-unad-yellow hover:bg-yellow-400 shadow-md hover:shadow-unad-yellow/20 transition duration-200"
                     >
                       Ir al Sitio UNAD
                     </a>
@@ -384,7 +385,7 @@ Simulado el ${new Date().toLocaleDateString()}
               </header>
 
               {/* Main Content Area */}
-              <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+              <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 pb-24 lg:pb-12">
                 {/* Print Title Header */}
                 <div className="hidden print:block col-span-12 border-b-2 border-unad-blue pb-4 mb-6">
                   <h1 className="text-3xl font-bold text-unad-blue">UNIVERSIDAD NACIONAL ABIERTA Y A DISTANCIA (UNAD)</h1>
@@ -396,8 +397,8 @@ Simulado el ${new Date().toLocaleDateString()}
                 <div className="lg:col-span-7 space-y-6 sm:space-y-8 no-print">
                   {/* Step 1: Program Selector */}
                   <section className="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 hover:border-slate-300 transition duration-200">
-                    <h2 className="text-lg sm:text-xl font-bold font-title text-unad-blue mb-4 flex items-center gap-2">
-                      <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-unad-blue/5 text-unad-blue text-sm">1</span>
+                    <h2 className="text-base sm:text-lg md:text-xl font-bold font-title text-unad-blue mb-4 flex items-center gap-2">
+                      <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-unad-blue/5 text-unad-blue text-sm flex-shrink-0">1</span>
                       Selecciona tu Programa Académico
                     </h2>
                     
@@ -414,26 +415,26 @@ Simulado el ${new Date().toLocaleDateString()}
                                 : 'border-slate-200 hover:border-blue-200 hover:bg-slate-50/50 hover:shadow-sm'
                             }`}
                           >
-                            <div className={`p-2.5 rounded-xl transition duration-300 ${
+                            <div className={`p-2.5 rounded-xl transition duration-300 flex-shrink-0 ${
                               isSelected ? 'bg-unad-blue text-white shadow-md' : 'bg-slate-100 text-slate-500'
                             }`}>
                               {prog.icon}
                             </div>
                             <div className="flex-1 min-w-0">
                               <h3 className={`font-semibold text-sm sm:text-base leading-snug truncate ${
-                                isSelected ? 'text-unad-blue' : 'text-slate-800'
+                                isSelected ? 'text-unad-blue font-bold' : 'text-slate-800'
                               }`}>
                                 {prog.nombre}
                               </h3>
-                              <p className="text-xs text-slate-500 mt-0.5 line-clamp-1">
+                              <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 line-clamp-1">
                                 {prog.desc}
                               </p>
-                              <div className="mt-2 flex items-center justify-between">
+                              <div className="mt-2 flex items-center justify-between gap-1 flex-wrap">
                                 <span className={`text-xs font-bold ${isSelected ? 'text-unad-blue' : 'text-slate-600'}`}>
                                   ${prog.creditoValor.toLocaleString()} <span className="font-normal text-slate-400">/ cr.</span>
                                 </span>
                                 {isSelected && (
-                                  <span className="text-[10px] uppercase font-bold tracking-wider text-unad-blue bg-unad-lightBlue px-2 py-0.5 rounded-full">
+                                  <span className="text-[9px] uppercase font-bold tracking-wider text-unad-blue bg-unad-lightBlue px-2 py-0.5 rounded-full">
                                     Activo
                                   </span>
                                 )}
@@ -448,8 +449,8 @@ Simulado el ${new Date().toLocaleDateString()}
                   {/* Step 2: Academic Credits Selector */}
                   <section className="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 hover:border-slate-300 transition duration-200">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
-                      <h2 className="text-lg sm:text-xl font-bold font-title text-unad-blue flex items-center gap-2">
-                        <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-unad-blue/5 text-unad-blue text-sm">2</span>
+                      <h2 className="text-base sm:text-lg md:text-xl font-bold font-title text-unad-blue flex items-center gap-2">
+                        <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-unad-blue/5 text-unad-blue text-sm flex-shrink-0">2</span>
                         Cantidad de Créditos Académicos
                       </h2>
                       <div className="flex items-center gap-2 self-start sm:self-auto">
@@ -483,7 +484,7 @@ Simulado el ${new Date().toLocaleDateString()}
                       />
                       <div className="flex justify-between text-xs text-slate-400 font-medium px-1">
                         <span>1 cr.</span>
-                        <span className="text-unad-blue font-semibold bg-unad-lightBlue px-2.5 py-0.5 rounded-full">
+                        <span className="text-unad-blue font-semibold bg-unad-lightBlue px-2.5 py-0.5 rounded-full text-center text-[10px] sm:text-xs">
                           Rango regular: {programaActual.minCreditos} a {programaActual.maxCreditos} cr.
                         </span>
                         <span>35 cr.</span>
@@ -492,8 +493,8 @@ Simulado el ${new Date().toLocaleDateString()}
 
                     {/* Alert for values outside typical limits */}
                     {(creditos < programaActual.minCreditos || creditos > programaActual.maxCreditos) && creditos > 0 && (
-                      <div className="mt-3 p-2.5 bg-amber-50 border border-amber-200 rounded-xl flex items-center gap-2 text-xs text-amber-800">
-                        <span>⚠️</span>
+                      <div className="mt-3 p-2.5 bg-amber-50 border border-amber-200 rounded-xl flex items-start sm:items-center gap-2 text-xs text-amber-800">
+                        <span className="flex-shrink-0">⚠️</span>
                         <span>
                           La cantidad de créditos ingresada ({creditos}) está fuera del rango regular del programa ({programaActual.minCreditos} a {programaActual.maxCreditos} cr.).
                         </span>
@@ -503,8 +504,8 @@ Simulado el ${new Date().toLocaleDateString()}
 
                   {/* Step 3: Discounts Options */}
                   <section className="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 hover:border-slate-300 transition duration-200">
-                    <h2 className="text-lg sm:text-xl font-bold font-title text-unad-blue mb-2 flex items-center gap-2">
-                      <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-unad-blue/5 text-unad-blue text-sm">3</span>
+                    <h2 className="text-base sm:text-lg md:text-xl font-bold font-title text-unad-blue mb-2 flex items-center gap-2">
+                      <span className="flex items-center justify-center w-7 h-7 rounded-lg bg-unad-blue/5 text-unad-blue text-sm flex-shrink-0">3</span>
                       Descuentos y Beneficios
                     </h2>
                     <p className="text-xs text-slate-500 mb-5 leading-relaxed">
@@ -516,7 +517,7 @@ Simulado el ${new Date().toLocaleDateString()}
                       <div className="p-4 rounded-2xl border border-slate-200/80 bg-slate-50/50">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex items-start gap-3">
-                            <span className="text-2xl mt-0.5">🗳️</span>
+                            <span className="text-2xl mt-0.5 flex-shrink-0">🗳️</span>
                             <div>
                               <h3 className="font-semibold text-slate-800 text-sm sm:text-base">
                                 Certificado Electoral Vigente
@@ -544,16 +545,16 @@ Simulado el ${new Date().toLocaleDateString()}
                       {/* Agreements */}
                       <div className="p-4 rounded-2xl border border-slate-200/80 bg-slate-50/50">
                         <div className="flex items-center gap-2.5 mb-3.5">
-                          <span className="text-2xl">📋</span>
+                          <span className="text-2xl flex-shrink-0">📋</span>
                           <h3 className="font-semibold text-slate-800 text-sm sm:text-base">
                             Convenios Interinstitucionales
                           </h3>
                         </div>
 
-                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                           <button
                             onClick={() => setDescuentos(prev => ({ ...prev, convenio: 0 }))}
-                            className={`p-2.5 rounded-xl border text-center transition duration-200 text-xs font-semibold ${
+                            className={`p-3 rounded-xl border text-center transition duration-200 text-xs font-semibold ${
                               descuentos.convenio === 0
                                 ? 'border-unad-blue bg-unad-blue text-white'
                                 : 'border-slate-200 bg-white hover:border-slate-300 text-slate-600'
@@ -564,7 +565,7 @@ Simulado el ${new Date().toLocaleDateString()}
 
                           <button
                             onClick={() => setDescuentos(prev => ({ ...prev, convenio: 5 }))}
-                            className={`p-2.5 rounded-xl border text-center transition duration-200 text-xs font-semibold ${
+                            className={`p-3 rounded-xl border text-center transition duration-200 text-xs font-semibold ${
                               descuentos.convenio === 5
                                 ? 'border-unad-blue bg-unad-blue text-white'
                                 : 'border-slate-200 bg-white hover:border-slate-300 text-slate-600'
@@ -575,7 +576,7 @@ Simulado el ${new Date().toLocaleDateString()}
 
                           <button
                             onClick={() => setDescuentos(prev => ({ ...prev, convenio: 10 }))}
-                            className={`p-2.5 rounded-xl border text-center transition duration-200 text-xs font-semibold ${
+                            className={`p-3 rounded-xl border text-center transition duration-200 text-xs font-semibold ${
                               descuentos.convenio === 10
                                 ? 'border-unad-blue bg-unad-blue text-white'
                                 : 'border-slate-200 bg-white hover:border-slate-300 text-slate-600'
@@ -586,7 +587,7 @@ Simulado el ${new Date().toLocaleDateString()}
 
                           <button
                             onClick={() => setDescuentos(prev => ({ ...prev, convenio: 15 }))}
-                            className={`p-2.5 rounded-xl border text-center transition duration-200 text-xs font-semibold ${
+                            className={`p-3 rounded-xl border text-center transition duration-200 text-xs font-semibold ${
                               descuentos.convenio === 15
                                 ? 'border-unad-blue bg-unad-blue text-white'
                                 : 'border-slate-200 bg-white hover:border-slate-300 text-slate-600'
@@ -607,7 +608,7 @@ Simulado el ${new Date().toLocaleDateString()}
                                 }`}
                               >
                                 <span>Egresado UNAD</span>
-                                <span className={`text-[10px] ${descuentos.convenio === 30 ? 'text-unad-yellow' : 'text-slate-400'}`}>30% Descuento</span>
+                                <span className={`text-[9px] ${descuentos.convenio === 30 ? 'text-unad-yellow font-bold' : 'text-slate-400 font-medium'}`}>30% Descuento</span>
                               </button>
                               
                               <button
@@ -619,20 +620,20 @@ Simulado el ${new Date().toLocaleDateString()}
                                 }`}
                               >
                                 <span>Militares/Uniformados</span>
-                                <span className={`text-[10px] ${descuentos.convenio === 25 ? 'text-unad-yellow' : 'text-slate-400'}`}>25% Descuento</span>
+                                <span className={`text-[9px] ${descuentos.convenio === 25 ? 'text-unad-yellow font-bold' : 'text-slate-400 font-medium'}`}>25% Descuento</span>
                               </button>
                             </React.Fragment>
                           ) : (
                             <button
                               onClick={() => setDescuentos(prev => ({ ...prev, convenio: 40 }))}
-                              className={`p-2.5 rounded-xl border text-center transition duration-200 text-xs font-semibold flex flex-col justify-center items-center gap-0.5 col-span-2 ${
+                              className={`p-2.5 rounded-xl border text-center transition duration-200 text-xs font-semibold flex flex-col justify-center items-center gap-0.5 sm:col-span-2 ${
                                 descuentos.convenio === 40
                                   ? 'border-unad-blue bg-unad-blue text-white'
                                   : 'border-slate-200 bg-white hover:border-slate-300 text-slate-600'
                               }`}
                             >
-                              <span>Fuerzas Militares Activos / Uniformados</span>
-                              <span className={`text-[10px] ${descuentos.convenio === 40 ? 'text-unad-yellow font-bold' : 'text-green-600 font-medium'}`}>40% Especial</span>
+                              <span>Militares Activos/Uniformados</span>
+                              <span className={`text-[9px] ${descuentos.convenio === 40 ? 'text-unad-yellow font-bold' : 'text-green-600 font-medium'}`}>40% Especial</span>
                             </button>
                           )}
                         </div>
@@ -641,7 +642,7 @@ Simulado el ${new Date().toLocaleDateString()}
 
                     {/* Dynamic Savings Info */}
                     <div className="mt-4 p-3.5 bg-sky-50 border border-sky-100 rounded-2xl flex items-start gap-2.5">
-                      <span className="text-sky-600 text-base mt-0.5">ℹ️</span>
+                      <span className="text-sky-600 text-base mt-0.5 flex-shrink-0">ℹ️</span>
                       <p className="text-xs text-sky-900 leading-normal">
                         <strong>Descuentos acumulables:</strong> El descuento electoral (10%) y el convenio institucional seleccionado se aplicarán conjuntamente sobre el valor neto de los créditos.
                         {descuentos.electoral || descuentos.convenio > 0 ? (
@@ -655,7 +656,7 @@ Simulado el ${new Date().toLocaleDateString()}
                 </div>
 
                 {/* Right Column: Liquidación Receipt & Extras */}
-                <div className="lg:col-span-5 space-y-6">
+                <div id="receipt-section" className="lg:col-span-5 space-y-6 lg:sticky lg:top-8 self-start scroll-mt-6">
                   {/* The Liquidación Receipt */}
                   <section className="bg-unad-navy text-white rounded-3xl shadow-xl overflow-hidden print-card relative">
                     {/* Watermark Logo */}
@@ -665,27 +666,27 @@ Simulado el ${new Date().toLocaleDateString()}
                       </svg>
                     </div>
 
-                    <div className="bg-gradient-to-r from-unad-blue to-blue-950 p-6 border-b border-white/10 flex items-center justify-between">
+                    <div className="bg-gradient-to-r from-unad-blue to-blue-950 p-5 sm:p-6 border-b border-white/10 flex items-center justify-between">
                       <div>
-                        <h2 className="text-xl font-bold font-title text-white">Liquidación</h2>
-                        <p className="text-[11px] text-slate-300">Periodo Académico Vigente</p>
+                        <h2 className="text-lg sm:text-xl font-bold font-title text-white">Liquidación</h2>
+                        <p className="text-[10px] sm:text-[11px] text-slate-300">Periodo Académico Vigente</p>
                       </div>
                       <span className="text-xs font-semibold bg-unad-yellow text-unad-blue px-3 py-1 rounded-full shadow-md">
                         {programaActual.nombre.split(' ')[0]}
                       </span>
                     </div>
 
-                    <div className="p-6 space-y-5">
+                    <div className="p-5 sm:p-6 space-y-5">
                       <div className="space-y-3">
-                        <div className="flex justify-between items-center text-sm">
+                        <div className="flex justify-between items-center text-xs sm:text-sm">
                           <span className="text-slate-300">Créditos ({creditos} × ${programaActual.creditoValor.toLocaleString()})</span>
                           <span className="font-semibold text-white">${resultado.subtotalCreditos.toLocaleString()}</span>
                         </div>
-                        <div className="flex justify-between items-center text-sm">
+                        <div className="flex justify-between items-center text-xs sm:text-sm">
                           <span className="text-slate-300">Derechos de Inscripción</span>
                           <span className="font-semibold text-white">${resultado.inscripcion.toLocaleString()}</span>
                         </div>
-                        <div className="flex justify-between items-center text-sm">
+                        <div className="flex justify-between items-center text-xs sm:text-sm">
                           <span className="text-slate-300">Seguro Estudiantil</span>
                           <span className="font-semibold text-white">${resultado.seguro.toLocaleString()}</span>
                         </div>
@@ -697,7 +698,7 @@ Simulado el ${new Date().toLocaleDateString()}
                       {/* Discounts segment */}
                       {resultado.descuentoAplicado > 0 ? (
                         <div className="bg-emerald-950/30 border border-emerald-500/20 rounded-2xl p-3.5 space-y-1">
-                          <div className="flex justify-between items-center text-emerald-400 font-semibold text-sm">
+                          <div className="flex justify-between items-center text-emerald-400 font-semibold text-xs sm:text-sm">
                             <span>Descuento Aplicado ({resultado.porcentajeDescuento}%)</span>
                             <span>-${resultado.descuentoAplicado.toLocaleString()}</span>
                           </div>
@@ -735,7 +736,7 @@ Simulado el ${new Date().toLocaleDateString()}
                       {/* Total section */}
                       <div className="border-t-2 border-dashed border-white/20 pt-4 flex flex-col items-center">
                         <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider">Total Proyectado a Pagar</span>
-                        <span className="text-3xl sm:text-4xl font-extrabold text-unad-yellow tracking-tight mt-1 font-title">
+                        <span className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-unad-yellow tracking-tight mt-1 font-title">
                           ${resultado.total.toLocaleString()}
                         </span>
                         <span className="text-[10px] text-slate-400 mt-1 font-light italic">Pesos Colombianos (COP)</span>
@@ -743,7 +744,7 @@ Simulado el ${new Date().toLocaleDateString()}
 
                       {/* Ahorro total banner */}
                       {resultado.descuentoAplicado > 0 && (
-                        <div className="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 rounded-2xl p-3.5 text-center text-sm font-medium text-emerald-300 flex items-center justify-center gap-2">
+                        <div className="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 rounded-2xl p-3.5 text-center text-xs sm:text-sm font-medium text-emerald-300 flex items-center justify-center gap-2">
                           <span>🎉</span>
                           <span>¡Te estás ahorrando <strong>${resultado.descuentoAplicado.toLocaleString()} COP</strong>!</span>
                         </div>
@@ -753,7 +754,7 @@ Simulado el ${new Date().toLocaleDateString()}
                       <div className="grid grid-cols-2 gap-3 no-print pt-2">
                         <button
                           onClick={handleCopySummary}
-                          className={`py-3 px-4 text-xs font-semibold rounded-2xl transition duration-200 flex items-center justify-center gap-2 ${
+                          className={`py-3 px-3 sm:px-4 text-xs font-semibold rounded-2xl transition duration-200 flex items-center justify-center gap-2 ${
                             copySuccess
                               ? 'bg-emerald-600 text-white'
                               : 'bg-white/10 hover:bg-white/15 text-white border border-white/15'
@@ -761,29 +762,29 @@ Simulado el ${new Date().toLocaleDateString()}
                         >
                           {copySuccess ? (
                             <React.Fragment>
-                              <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <svg className="w-4 h-4 text-white flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                               </svg>
-                              <span>¡Copiado!</span>
+                              <span className="truncate">¡Copiado!</span>
                             </React.Fragment>
                           ) : (
                             <React.Fragment>
-                              <svg className="w-4 h-4 text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <svg className="w-4 h-4 text-slate-300 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
                               </svg>
-                              <span>Copiar resumen</span>
+                              <span className="truncate">Copiar</span>
                             </React.Fragment>
                           )}
                         </button>
 
                         <button
                           onClick={handlePrint}
-                          className="py-3 px-4 text-xs font-semibold rounded-2xl bg-unad-yellow hover:bg-yellow-400 text-unad-blue transition duration-200 flex items-center justify-center gap-2 shadow-lg shadow-unad-yellow/10"
+                          className="py-3 px-3 sm:px-4 text-xs font-semibold rounded-2xl bg-unad-yellow hover:bg-yellow-400 text-unad-blue transition duration-200 flex items-center justify-center gap-2 shadow-lg shadow-unad-yellow/10"
                         >
-                          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
                           </svg>
-                          <span>Imprimir recibo</span>
+                          <span className="truncate">Imprimir</span>
                         </button>
                       </div>
                     </div>
@@ -793,16 +794,16 @@ Simulado el ${new Date().toLocaleDateString()}
                   <section className="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-slate-200/80 hover:border-slate-300 transition duration-200">
                     <div className="flex items-center justify-between gap-3 mb-3">
                       <h3 className="font-bold text-unad-blue font-title text-base sm:text-lg flex items-center gap-2">
-                        <span>📋</span>
+                        <span className="flex-shrink-0">📋</span>
                         Requisitos de Inscripción
                       </h3>
-                      <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full">
-                        {docsCheckedCount}/{listaRequisitos.length} listos
+                      <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-full flex-shrink-0">
+                        {docsCheckedCount}/{listaRequisitos.length}
                       </span>
                     </div>
 
                     <p className="text-xs text-slate-500 mb-4">
-                      Requisitos requeridos para formalizar tu matrícula como estudiante de <strong>{esPosgrado ? 'Posgrado' : 'Pregrado'}</strong>. Marca los que ya poseas:
+                      Documentos requeridos para matricularte en <strong>{esPosgrado ? 'Posgrado' : 'Pregrado'}</strong>. Marca los que ya tengas listos:
                     </p>
 
                     {/* Progress bar */}
@@ -845,9 +846,9 @@ Simulado el ${new Date().toLocaleDateString()}
                   </section>
                 </div>
 
-                {/* FAQ and Helpful Accordion */}
+                {/* FAQ and Helpful Accordion (Full width bottom - no print) */}
                 <div className="col-span-12 space-y-4 no-print mt-4 sm:mt-6">
-                  <h3 className="text-xl font-bold font-title text-unad-blue">Preguntas Frecuentes</h3>
+                  <h3 className="text-lg sm:text-xl font-bold font-title text-unad-blue">Preguntas Frecuentes</h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {faqs.map((faq, idx) => {
                       const isOpen = activeFaq === idx;
@@ -861,7 +862,7 @@ Simulado el ${new Date().toLocaleDateString()}
                             className="w-full p-4 text-left font-semibold text-sm sm:text-base text-unad-blue flex items-center justify-between gap-4 focus:outline-none"
                           >
                             <span>{faq.q}</span>
-                            <span className={`text-xs transform transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
+                            <span className={`text-xs transform transition-transform duration-200 flex-shrink-0 ${isOpen ? 'rotate-180' : ''}`}>
                               ▼
                             </span>
                           </button>
@@ -878,12 +879,40 @@ Simulado el ${new Date().toLocaleDateString()}
               </main>
 
               {/* Bottom Footer */}
-              <footer className="bg-slate-100 border-t border-slate-200 py-6 px-4 mt-12 text-center text-xs text-slate-500 no-print">
+              <footer className="bg-slate-100 border-t border-slate-200 py-6 px-4 text-center text-xs text-slate-500 no-print mt-auto">
                 <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
                   <p>Universidad Nacional Abierta y a Distancia (UNAD). Colombia © {new Date().getFullYear()}</p>
                   <p className="font-light">Diseñado con propósitos de simulación y proyección de matrículas</p>
                 </div>
               </footer>
+
+              {/* Sticky bottom bar for mobile and tablet screens */}
+              <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-unad-navy/95 backdrop-blur-md text-white border-t border-white/10 px-4 py-3.5 flex items-center justify-between z-50 shadow-2xl no-print">
+                <div className="min-w-0">
+                  <span className="text-[9px] text-slate-400 uppercase font-bold tracking-wider block">Total Proyectado ({creditos} cr.)</span>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-lg sm:text-xl font-extrabold text-unad-yellow font-title truncate">${resultado.total.toLocaleString()}</span>
+                    <span className="text-[9px] text-slate-400 italic">COP</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <a 
+                    href="#receipt-section"
+                    className="bg-white/10 hover:bg-white/15 border border-white/15 text-white text-[11px] font-semibold px-3 py-2 rounded-xl transition duration-150"
+                  >
+                    Detalle
+                  </a>
+                  <button
+                    onClick={handlePrint}
+                    className="bg-unad-yellow text-unad-blue text-[11px] font-bold px-3 py-2 rounded-xl hover:bg-yellow-400 transition duration-150 flex items-center gap-1 shadow-md shadow-unad-yellow/10"
+                  >
+                    <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                    </svg>
+                    <span>Imprimir</span>
+                  </button>
+                </div>
+              </div>
             </div>
           );
         };
